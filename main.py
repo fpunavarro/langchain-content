@@ -4,7 +4,7 @@ from langchain_openai import ChatOpenAI
 from langchain_ollama import ChatOllama
 
 load_dotenv()
-
+print("this is a test, cn ")
 
 def main():
     print("Hello from langchain-course!")
