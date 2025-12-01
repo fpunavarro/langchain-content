@@ -3,9 +3,9 @@ import os
 from dotenv import load_dotenv
 from langchain_core.prompts import PromptTemplate
 # from langchain_openai import ChatOpenAI
-# from langchain_ollama import ChatOllama
-from langchain_google_genai import ChatGoogleGenerativeAI
-
+from langchain_ollama import ChatOllama
+#from langchain_google_genai import ChatGoogleGenerativeAI
+#from langchain_ollama import ChatOllama
 
 load_dotenv()
 print("this is a test, cn ")
@@ -65,13 +65,13 @@ In 2019, Python became the second most popular language on GitHub, the largest s
         input_variables=["information"], template=summary_template
     )
 
-    # llm = ChatOllama(temperature=0, model="gemma3:270m")
+    llm = ChatOllama(temperature=0, model="gemma3:270m")
     # llm = ChatOpenAI(temperature=0, model="gpt-5")
-    llm = ChatGoogleGenerativeAI(
-        model="gemini-2.5-flash", api_key=os.getenv("GEMINI_API_KEY"), temperature=0
-    )
+    #llm = ChatGoogleGenerativeAI(
+    #    model="gemini-2.5-flash", api_key=os.getenv("GEMINI_API_KEY"), temperature=0
+    #)
     chain = summary_prompt_template | llm
-
+    print("invoking chain now...")
     response = chain.invoke(input={"information": information})
     print(response.content)
 
