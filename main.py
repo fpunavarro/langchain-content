@@ -4,6 +4,9 @@ from dotenv import load_dotenv
 from langchain_core.messages import HumanMessage, ToolMessage
 from langchain.tools import tool, BaseTool
 from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
+
+import os
 
 from callbacks import AgentCallbackHandler
 
@@ -32,8 +35,8 @@ if __name__ == "__main__":
     print("Hello LangChain Tools (.bind_tools)!")
     tools = [get_text_length]
 
-    llm = ChatOpenAI(
-        temperature=0,
+    llm = ChatGoogleGenerativeAI(
+        model="gemini-2.5-flash", api_key=os.getenv("GEMINI_API_KEY"), temperature=0,
         callbacks=[AgentCallbackHandler()],
     )
     llm_with_tools = llm.bind_tools(tools)
