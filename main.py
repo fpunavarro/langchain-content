@@ -33,7 +33,7 @@ def find_tool_by_name(tools: List[BaseTool], tool_name: str) -> BaseTool:
 
 if __name__ == "__main__":
     print("Hello LangChain Tools (.bind_tools)!")
-    tools = [get_text_length]
+    tools = [get_text_length] #supplied to React Agent
 
     llm = ChatGoogleGenerativeAI(
         model="gemini-2.5-flash", api_key=os.getenv("GEMINI_API_KEY"), temperature=0,
