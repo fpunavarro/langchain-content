@@ -1,5 +1,5 @@
 
-
+#requires langchain 0.3  disreagard if using langchain 1.x
 from dotenv import load_dotenv
 #from langchain.agents import tool
 from langchain_google_genai import ChatGoogleGenerativeAI
@@ -52,11 +52,14 @@ if __name__ == "__react_pt1__":
     """
 
     #prompt = PromptTemplate.from_template(template=template).partial(tools=tools, tool_names=", ".join([t.name for t in tools]))
-    prompt = PromptTemplate.from_template(template=template).partial(tools=render_text_description(tools), tool_names=", ".join([t.name for t in tools]))
+    prompt = PromptTemplate.from_template(template=template).partial(tools=render_text_description(tools), 
+    tool_names=", ".join([t.name for t in tools]))
 
     llm = ChatGoogleGenerativeAI(
         model="gemini-2.5-flash", api_key=os.getenv("GEMINI_API_KEY"), temperature=0, 
-        model_kwargs={"stop": ["\nObservation:"]},
-        
-    ) #model_kwargs to control stopping criteria, due to gemini llm behavior, not needed for openai
-    
+        model_kwargs={"stop": ["\nObservation", "Observation"]}, # stopping criteria
+        ) #model_kwargs to control stopping criteria, due to gemini llm behavior, not needed for openai
+    agent = {"input": lambda x: x["input"]} | prompt | llm | ReActSingleInputOutputParser()
+
+    res = agent.invoke({"input": "What is the length of 'DOG' in characters?'"})
+    print(f"Final Answer: {res}")

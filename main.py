@@ -5,6 +5,8 @@ from langchain_core.messages import HumanMessage, ToolMessage
 from langchain.tools import tool, BaseTool
 from langchain_openai import ChatOpenAI
 from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_core.prompts import PromptTemplate
+from langchain_core.tools import render_text_description, tool
 
 import os
 
@@ -34,6 +36,7 @@ def find_tool_by_name(tools: List[BaseTool], tool_name: str) -> BaseTool:
 if __name__ == "__main__":
     print("Hello LangChain Tools (.bind_tools)!")
     tools = [get_text_length] #supplied to React Agent
+   
 
     llm = ChatGoogleGenerativeAI(
         model="gemini-2.5-flash", api_key=os.getenv("GEMINI_API_KEY"), temperature=0,
@@ -62,7 +65,7 @@ if __name__ == "__main__":
                 print(f"observation={observation}")
 
                 messages.append(
-                    ToolMessage(content=str(observation), tool_call_id=tool_call_id)
+                ToolMessage(content=str(observation), tool_call_id=tool_call_id)
                 )
             # Continue loop to allow the model to use the observations
             continue
