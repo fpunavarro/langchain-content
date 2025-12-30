@@ -65,7 +65,7 @@ if __name__ == "__main__":
                 print(f"observation={observation}")
 
                 messages.append(
-                ToolMessage(content=str(observation), tool_call_id=tool_call_id)
+                    ToolMessage(content=str(observation), tool_call_id=tool_call_id)
                 )
             # Continue loop to allow the model to use the observations
             continue
