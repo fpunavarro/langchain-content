@@ -7,6 +7,7 @@ from langchain_openai import ChatOpenAI
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import PromptTemplate
 from langchain_core.tools import render_text_description, tool
+from langsmith import traceable
 
 import os
 
@@ -25,7 +26,7 @@ def get_text_length(text: str) -> int:
 
     return len(text)
 
-
+@traceable
 def find_tool_by_name(tools: List[BaseTool], tool_name: str) -> BaseTool:
     for tool in tools:
         if tool.name == tool_name:
