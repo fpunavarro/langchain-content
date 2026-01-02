@@ -4,9 +4,11 @@ from dotenv import load_dotenv
 from langchain_classic import hub
 from langchain_classic.chains.combine_documents import create_stuff_documents_chain
 from langchain_classic.chains.retrieval import create_retrieval_chain
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_pinecone import PineconeVectorStore
+#from langchain_neo4j import Neo4jVector 
 
 load_dotenv()
 
@@ -25,6 +27,9 @@ if __name__ == "__main__":
     vectorstore = PineconeVectorStore(
         index_name=os.environ["INDEX_NAME"], embedding=embeddings
     )
+    #vectorstore2 = Neo4jVector(
+    #    index_name=os.environ["NEO4J_INDEX_NAME"], embedding=embeddings
+    #)
 
     retrieval_qa_chat_prompt = hub.pull("langchain-ai/retrieval-qa-chat")
     combine_docs_chain = create_stuff_documents_chain(llm, retrieval_qa_chat_prompt)

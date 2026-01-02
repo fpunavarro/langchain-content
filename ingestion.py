@@ -2,15 +2,17 @@ import os
 
 from dotenv import load_dotenv
 from langchain_community.document_loaders import TextLoader
-from langchain_openai import OpenAIEmbeddings
+#from langchain_google_genai import OpenAIEmbeddings
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_pinecone import PineconeVectorStore
+#from langchain_neo4j import Neo4jVector 
 from langchain_text_splitters import CharacterTextSplitter
 
 load_dotenv()
 
 if __name__ == "__main__":
     print("Ingesting...")
-    loader = TextLoader("/Users/edenmarco/Desktop/langchain-course/mediumblog1.txt")
+    loader = TextLoader("./mediumblog1.txt")
     document = loader.load()
 
     print("splitting...")
@@ -18,10 +20,13 @@ if __name__ == "__main__":
     texts = text_splitter.split_documents(document)
     print(f"created {len(texts)} chunks")
 
-    embeddings = OpenAIEmbeddings(openai_api_key=os.environ.get("OPENAI_API_KEY"))
-
+    #embeddings = OpenAIEmbeddings(openai_api_key=os.environ.get("OPENAI_API_KEY"))
+    embeddings = GoogleGenerativeAIEmbeddings(gemini_api_key=os.environ.get("GEMINI_API_KEY"))
     print("ingesting...")
     PineconeVectorStore.from_documents(
         texts, embeddings, index_name=os.environ["INDEX_NAME"]
-    )
+     )
+    #Neo4jVector.from_documents(
+    #    texts, embeddings, index_name=os.environ["NEO4J_INDEX_NAME"]
+     #) 
     print("finish")
